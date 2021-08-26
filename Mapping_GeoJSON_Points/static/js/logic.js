@@ -93,7 +93,21 @@ let streets  = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-st
 streets.addTo(map);
 
 // Accessing the airport GeoJSON URL
-let airportData = "https://raw.githubusercontent.com/rulma/Mapping_Earthquakes/main/majorAirports.json";
+let airportData = "https://raw.githubusercontent.com/rulma/Mapping_Earthquakes/main/Mapping_GeoJSON_Points/static/js/majorAirports.json";
+
+
+// Grabbing our GeoJSON data.
+d3.json(airportData).then(function(data) {
+  console.log(data);
+// Creating a GeoJSON layer with the retrieved data.
+  L.geoJson(data, {
+    onEachFeature: function(feature,layer){
+      layer.bindPopup(feature.properties.name+ " ("+ feature.properties.faa+")")
+    }
+  }).addTo(map);
+  
+});
+
 
 //  Add a marker to the map for Los Angeles, California.
 //let marker = L.circle([34.0522, -118.2437], { radius: 3000, color: "black", fillColor: "#ffffa1"}).addTo(map);
